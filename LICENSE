@@ -19,3 +19,51 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+#Edited by chat GPT and revised Koki Sueda
+
+def decimal_to_base(decimal_number, base):
+    if decimal_number == 0:
+        return "0"
+
+    digits = []
+    base_digits = "0123456789ABCDEF"
+    
+    while decimal_number:
+        digits.append(base_digits[decimal_number % base])
+        decimal_number //= base
+
+    digits.reverse()
+    return "".join(digits)
+
+def float_to_base(decimal_number, base, precision=10):
+    integer_part = int(decimal_number)
+    fractional_part = decimal_number - integer_part
+    fractional_digits = []
+
+    base_digits = "0123456789ABCDEF"
+
+    for _ in range(precision):
+        fractional_part *= base
+        fractional_digit = int(fractional_part)
+        fractional_digits.append(base_digits[fractional_digit])
+        fractional_part -= fractional_digit
+
+    fractional_result = "".join(fractional_digits)
+    return f"{decimal_to_base(integer_part, base)}.{fractional_result}"
+
+def decimal_converter(decimal_number):
+    binary = float_to_base(decimal_number, 2)
+    octal = float_to_base(decimal_number, 8)
+    hexadecimal = float_to_base(decimal_number, 16)
+
+    return binary, octal, hexadecimal
+
+if __name__ == "__main__":
+    decimal_number = float(input("10進数の実数を入力してください: "))
+    binary, octal, hexadecimal = decimal_converter(decimal_number)
+
+    print(f"2進数: {binary}")
+    print(f"8進数: {octal}")
+    print(f"16進数: {hexadecimal}")
+
